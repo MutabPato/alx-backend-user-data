@@ -41,12 +41,14 @@ def get_logger() -> logging.Logger:
     """ returns a logging.Logger object"""
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
+    logger.propagate = False
 
-    console_handler = logging.StreamHandler()
+    target_handler = logging.StreamHandler()
+    target_handler.setLevel(logging.INFO)
 
     formatter = RedactingFormatter(list(PII_FIELDS))
-    console_handler.setFormatter(formatter)
+    target_handler.setFormatter(formatter)
 
-    logger.addHandler(console_handler)
+    logger.addHandler(target_handler)
 
     return logger
