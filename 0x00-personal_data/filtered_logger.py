@@ -4,6 +4,9 @@
 import re
 from typing import List
 import logging
+import os
+import mysql.connector
+from mysql.connector import Error
 
 
 class RedactingFormatter(logging.Formatter):
@@ -52,3 +55,19 @@ def get_logger() -> logging.Logger:
     logger.addHandler(target_handler)
 
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """returns a connector to the database object"""
+
+    USERNAME = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    PASSWORD = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    HOST = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    NAME = os.getenv('PERSONAL_DATA_DB_NAME')
+
+    return mysql.connector.connect(
+            host=HOST,
+            database=NAME,
+            user=USERNAME,
+            password=PASSWORD
+    )
