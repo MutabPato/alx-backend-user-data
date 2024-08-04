@@ -71,3 +71,27 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
             user=USERNAME,
             password=PASSWORD
     )
+
+
+def main():
+    """retrieve all rows in the users table and
+    display each row under a filtered format"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users")
+
+    headers = [field[0] for field in cursor.description]
+    logger = get_logger()
+
+    for row in cursor:
+        info_answer = ''
+        for value, header in zip(row, headers):
+            info_answer += f'{header}={value}; '
+        logger.info(info_answer.strip())
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
