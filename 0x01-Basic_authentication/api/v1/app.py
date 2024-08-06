@@ -9,9 +9,22 @@ from flask_cors import (CORS, cross_origin)
 import os
 
 
+# Import Auth class
+from api.v1.auth.auth import Auth
+
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+
+# Initializing auth to None
+auth = None
+
+# Load and assign the right instance of authentication
+# to auth Based on the environment variable AUTH_TYPE
+auth_type = os.getenv('AUTH_TYPE', None)
+
+if auth_type == 'auth':
+    auth = Auth()
 
 
 @app.errorhandler(404)
@@ -33,6 +46,25 @@ def forbidden(error) -> str:
     """ Forbidden handler
     """
     return jsonify({"error": "Forbidden"}), 403
+
+
+@app.before_request
+def before_request():
+    """ before_request handler
+    """
+    if auth is None:
+        return
+
+    excluded_paths = [
+            '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    if not auth.require_auth(request.path, excluded_paths):
+        return
+
+    if auth.authorization_header(request) is None:
+        abort(401, description="Unauthorized")
+
+    if auth.current_user(request) is None:
+        abort(403, description="Forbidden")
 
 
 if __name__ == "__main__":
