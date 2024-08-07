@@ -54,10 +54,10 @@ class BasicAuth(Auth):
             user email and password from the Base64 decoded value.
         """
         if decoded_base64_authorization_header is None:
-            return None
+            return (None, None)
         if not isinstance(decoded_base64_authorization_header, str):
-            return None
+            return (None, None)
         if decoded_base64_authorization_header.find(':') == -1:
-            return None
+            return (None, None)
         else:
             return tuple(decoded_base64_authorization_header.split(':'))
