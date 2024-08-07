@@ -11,6 +11,8 @@ import os
 
 # Import Auth class
 from api.v1.auth.auth import Auth
+from api.v1.auth.basic_auth import BasicAuth
+
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -23,7 +25,10 @@ auth = None
 # to auth Based on the environment variable AUTH_TYPE
 auth_type = os.getenv('AUTH_TYPE', None)
 
-if auth_type == 'auth':
+if auth_type == 'basic_auth':
+    auth = BasicAuth()
+
+elif auth_type == 'auth':
     auth = Auth()
 
 
