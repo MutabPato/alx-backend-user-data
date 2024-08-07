@@ -6,6 +6,9 @@ import base64
 from typing import TypeVar, Optional
 from models.user import User
 
+# Define a type variable with User as its bound
+UserType = TypeVar('UserType', bound='User')
+
 
 class BasicAuth(Auth):
     """ inherits from Auth """
