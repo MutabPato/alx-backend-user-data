@@ -93,7 +93,7 @@ class BasicAuth(Auth):
         """
         overloads Auth and retrieves the User instance for a request
         """
-        header = Auth.authorization_header(request)
+        header = self.authorization_header(request)
         extracted_header = self.extract_base64_authorization_header(header)
         decoded_header = self.decode_base64_authorization_header(
                 extracted_header)
