@@ -3,16 +3,12 @@
 """
 
 from flask import request
+from Typing import List, TypeVar
 
 
 class Auth:
     """Auth class
     """
-    def __init__(self):
-        """Initialize class
-        """
-        return
-
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
         Return:
