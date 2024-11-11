@@ -3,7 +3,7 @@
 """
 
 from flask import request
-from Typing import List, TypeVar
+from typing import List, TypeVar
 
 
 class Auth:
@@ -11,21 +11,21 @@ class Auth:
     """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
-        Return:
-        - False
+        Returns:
+            False
         """
-        Return False
+        return False
 
     def authorization_header(self, request=None) -> str:
         """
         Return:
-        - None
+            None
         """
-        Return None
+        return None
 
     def current_user(self, request=None) -> TypeVar('User'):
         """
         Return:
-        - None
+            None
         """
-        Return None
+        return None
