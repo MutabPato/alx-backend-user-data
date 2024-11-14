@@ -54,7 +54,8 @@ def before_request_handler():
     if auth is None:
         return
     path_list = [
-            '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+            '/api/v1/status/', '/api/v1/unauthorized/',
+            '/api/v1/forbidden/', '/api/v1/auth_session/login/']
     if auth.require_auth(request.path, path_list) is False:
         return
     if auth.authorization_header(request) is None:
@@ -63,6 +64,11 @@ def before_request_handler():
         abort(403)
 
     request.current_user = auth.current_user(request)
+
+    if (auth.authorization_header(request)) is None:
+        abort(401)
+    if (auth.session_cookie(request)) is None:
+        abort(401)
 
 
 if __name__ == "__main__":
