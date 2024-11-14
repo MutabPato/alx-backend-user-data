@@ -5,6 +5,8 @@
 from flask import request
 from typing import List, TypeVar
 import fnmatch
+import os
+from os import getenv
 
 
 class Auth:
@@ -19,7 +21,7 @@ class Auth:
             return True
         if excluded_paths is None or not excluded_paths:
             return True
-        
+
         if not path.endswith("/"):
             path += "/"
 
@@ -51,3 +53,12 @@ class Auth:
             None
         """
         return None
+
+    def session_cookie(self, request=None):
+        """returns a cookie value from a request
+        """
+        if request is None:
+            return None
+        session_name = os.getenv('SESSION_NAME')
+        _my_session_id = request.cookies.get(session_name)
+        return _my_session_id
