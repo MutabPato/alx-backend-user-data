@@ -2,7 +2,6 @@
 """
 Route module for the API
 """
-from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
@@ -11,6 +10,7 @@ from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
 from api.v1.auth.session_auth import SessionAuth
 from api.v1.auth.session_exp_auth import SessionExpAuth
+from api.v1.auth.session_db_auth import SessionDBAuth
 
 
 app = Flask(__name__)
@@ -23,8 +23,8 @@ auth = None
 auth = os.getenv("AUTH_TYPE")
 
 # Conditionally set up the authentication
-if auth:
-    auth = SessionExpAuth()
+if auth == "session_db_auth":
+    auth = SessionDBAuth()
 
 
 @app.errorhandler(404)
@@ -69,6 +69,6 @@ def before_request_handler():
 
 
 if __name__ == "__main__":
-    host = getenv("API_HOST", "0.0.0.0")
-    port = getenv("API_PORT", "5000")
+    host = os.getenv("API_HOST", "0.0.0.0")
+    port = os.getenv("API_PORT", "5000")
     app.run(host=host, port=port)
