@@ -4,7 +4,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.exc import NoResultFound
 from user import Base, User
 
 
@@ -40,3 +41,14 @@ class DB:
         except Exception as e:
             self._session.rollback()  # Rollback in case of an error
             raise RuntimeError(f"Error adding user: {e}")
+
+    def find_user_by(self, **kwargs) -> User.row:
+        """Find a user by arbitrary keyword arguments
+        """
+        try:
+            user = self._session.query(User).filter_by(**kwargs).one()
+            return user
+        except NoResultFound:
+            raise NoResultFound(f"No user found with filter {kwargs}")
+        except InvalidRequestError as e:
+            raise InvalidRequestError(f"Invalid request: {e}")
