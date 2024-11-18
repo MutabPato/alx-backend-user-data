@@ -42,7 +42,7 @@ class DB:
             self._session.rollback()  # Rollback in case of an error
             raise RuntimeError(f"Error adding user: {e}")
 
-    def find_user_by(self, **kwargs) -> User.row:
+    def find_user_by(self, **kwargs) -> User:
         """Find a user by arbitrary keyword arguments
         """
         try:
@@ -52,3 +52,13 @@ class DB:
             raise NoResultFound(f"No user found with filter {kwargs}")
         except InvalidRequestError as e:
             raise InvalidRequestError(f"Invalid request: {e}")
+
+    def update_user(self, user_id, **kwargs) -> None:
+        """Updates a user
+        """
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError(f"Invalid attribute: {e}")
+            setattr(user, key, value)
+        self._session.commit()
