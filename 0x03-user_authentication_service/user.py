@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+"""
+User model
+"""
 
 
 from sqlalchemy import Column, Integer, String, create_engine
@@ -9,7 +12,7 @@ Base = declarative_base()
 
 
 class User(Base):
-    """User model
+    """ User model class
     """
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
