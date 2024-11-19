@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Users model
+Defines the SQLALchemy User model for authentication
 """
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import declarative_base
@@ -10,7 +10,7 @@ Base = declarative_base()
 
 
 class User(Base):
-    """ Represents user object/table
+    """ Represents a user in the authentication system
     """
     __tablename__ = 'users'
 
