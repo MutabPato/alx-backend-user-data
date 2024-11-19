@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-User model
+Users model
 """
 
 
-from sqlalchemy import Column, Integer, String, create_engine
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import declarative_base
 
 
@@ -20,7 +20,3 @@ class User(Base):
     hashed_password = Column(String(250), nullable=False)
     session_id = Column(String(250), nullable=True)
     reset_token = Column(String(250), nullable=True)
-
-
-engine = create_engine('sqlite:///:memory:')
-Base.metadata.create_all(engine)
