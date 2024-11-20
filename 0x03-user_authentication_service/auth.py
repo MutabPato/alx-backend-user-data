@@ -88,3 +88,15 @@ class Auth:
             self._db.update_user(user_id, session_id=None)
         except Exception as e:
             print(f"Error destroying session: {e}")
+
+    def get_reset_password_token(self, email: string) -> str:
+        """
+        Generates reset password token
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            reset_token = _generate_uuid()
+            self._db.update_user(user.id, reset_token=reset_token)
+            return reset_token
+        except NoResultFound:
+            raise ValueError(f"No user found with email: {email}")
