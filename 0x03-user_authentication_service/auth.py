@@ -6,13 +6,13 @@ import bcrypt
 import uuid
 from db import DB
 from user import User
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
 from typing import Union
 
 
 def _hash_password(password: str) -> bytes:
     """
-    Hasshes a password bcrypt.
+    Hashes a password bcrypt.
 
     Args:
         password (str): The plain-text password.
