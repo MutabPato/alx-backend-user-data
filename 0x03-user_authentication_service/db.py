@@ -82,7 +82,7 @@ class DB:
         except Exception as e:
             raise InvalidRequestError(f"Invalid request: {e}")
 
-    def update_user(self, user_id, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """
         Updates a user's attributes in the database.
 
