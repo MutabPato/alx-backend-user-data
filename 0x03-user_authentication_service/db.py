@@ -57,7 +57,7 @@ class DB:
             self._session.rollback()  # Rollback in case of an error
             raise RuntimeError(f"Error adding user: {e}")
 
-    def find_user_by(self, **kwargs: Any) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """
         Find a user by arbitrary keyword arguments.
 
